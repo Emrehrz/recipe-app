@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row flex-center">
+  <div class="col-md-7 col-lg-6 py-8 text-md-start">
+    <div class="card">
+      <div class="card-body" style="width: fit-content">
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+          <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="col-md-6 mb-4">
+              <div class="form-outline">
+                <label class="form-label" for="form3Example1"
+                  >Tarif Basligi</label
+                >
+                {{form.name}}
+              </div>
+
+              <div class="form-outline">
+                <label class="form-label" id="basic-addon1"
+                  >Fotograf Ekleyin</label
+                >
+                {{form.image}}
+              </div>
+
+              <div class="form-outline">
+                <label class="form-label" id="basic-addon1">Hazırlanısı</label>
+                {{form.description}}
+              </div>
+            </div>
+            <div class="form-outline">
+              <label class="form-label" id="basic-addon1">Tarif Turu</label>
+              {{form.category}}
+            </div>
+            {% if form.errors or form.non_field_errors %}
+            <div>
+              {% for field in form %} {{field.errors}} {% endfor %}
+              {{form.non_field_errors}}
+            </div>
+            {% endif %}
+
+            <button class="btn btn-primary">Ekle</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

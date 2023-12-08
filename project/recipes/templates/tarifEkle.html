@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row flex-center">
+  <div class="col-md-7 col-lg-6 py-8 text-md-start">
+    <div class="card">
+      <div class="card-body" style="width: fit-content">
+        <!--Grid column-->
+        <div class="col mb-4">
+          <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="recipeTitle" class="form-label">Tarif Başlığı</label>
+              {{ form.name }}
+            </div>
+
+            <div class="mb-3">
+              <label for="recipeImage" class="form-label"
+                >Fotoğraf Ekleyin</label
+              >
+              {{ form.image }}
+            </div>
+
+            <div class="mb-3">
+              <label for="recipeContent" class="form-label">Hazırlanışı</label>
+              {{ form.description }} {{ form.media}}
+            </div>
+
+            <div class="mb-3">
+              <label>Tarif Türü</label>
+              {{ form.category }}
+            </div>
+
+            {% if form.errors or form.non_field_errors %}
+            <div class="alert alert-danger">
+              {% for field in form %} {{ field.errors }} {% endfor %} {{
+              form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">Ekle</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
