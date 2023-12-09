@@ -31,8 +31,10 @@
     </div>
     <div class="card">
       <div class="card-body card-xl">
+        <h3 class="text-1000 text-light">Gerekli malzemeler:</h3>
+        {{recipe.materials|safe}}
         <h3 class="text-1000 text-light">Hazırlanışı:</h3>
-        <h5>{{recipe.description}}</h5>
+        {{recipe.description|safe}}
       </div>
     </div>
   </div>
@@ -55,9 +57,12 @@
   </div>
   {% endif %}
 
-  <div class="row">
-    <div class="col-md-6">
-      <div class="product-reviews">
+  <div class="row my-4">
+    <div class="col">
+      <div class="product-reviews text-center">
+        {% if rs == null %}
+        <h2 class="bg-light ">Tarif henüz değerlendirme almadı.
+        {% else %}
         {% for rs in comments %}
         <div class="single-review border">
           <div class="review-heading">
@@ -77,10 +82,12 @@
           </div>
         </div>
         {% endfor %}
+        {% endif %}
       </div>
     </div>
-    <div class="col-md-6">
-      <h4 class="text-uppercase">Write Your Review</h4>
+    {% if recipe.created_by != request.user %}
+    <div class="col">
+      <h4 class="text-uppercase">Tarifi Değerlendirin</h4>
       {% if messages %} {% for message in messages %}
       <div class="alert alert-{{message.tags}}" role="alert">{{ message }}</div>
       {% endfor %} {% endif %}
@@ -90,7 +97,9 @@
         method="post"
       >
         {% csrf_token %}
-        <div class="form-group">
+        <div class="form-group mb-2">
+            <strong class="text-uppercase">Yorum: </strong>
+
           <input
             name="content"
             class="form-control"
@@ -98,25 +107,13 @@
             placeholder="Yorumunuz"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <div class="input-rating">
-            <strong class="text-uppercase">Your Rating: </strong>
-            <div class="stars">
-              <input type="radio" id="star5" name="rate" value="5" /><label
-                for="star5"
-              ></label>
-              <input type="radio" id="star4" name="rate" value="4" /><label
-                for="star4"
-              ></label>
-              <input type="radio" id="star3" name="rate" value="3" /><label
-                for="star3"
-              ></label>
-              <input type="radio" id="star2" name="rate" value="2" /><label
-                for="star2"
-              ></label>
-              <input type="radio" id="star1" name="rate" value="1" /><label
-                for="star1"
-              ></label>
+            <strong class="text-uppercase">Değerlendirme: </strong>
+            <div class="stars col-md-3">
+              <i class="fa fa-star"></i> Değerlendirme 5 üzerinden:
+      <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" step="1">
+
             </div>
           </div>
         </div>
@@ -127,6 +124,7 @@
         {% endif %}
       </form>
     </div>
+    {% endif %}
   </div>
 
   {% endblock %}

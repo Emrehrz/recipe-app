@@ -19,7 +19,7 @@ class Recipe(models.Model):
         Category, related_name='recipes', on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     description = RichTextField(blank=True, null=True)
-    # description = models.TextField()
+    materials = RichTextField(blank=True, null=True)
     created_by = models.ForeignKey(
         User, related_name='recipes', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
